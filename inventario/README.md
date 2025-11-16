@@ -197,5 +197,5 @@ Este proyecto es parte de un trabajo académico.
 
 ## 🔗 Enlaces
 
-- **Modelo TFLite**: [Descargar desde Google Drive]((https://colab.research.google.com/drive/1va8jqYFM36szJQn4p3SX9V6i0GhtEyXj?usp=sharing))
+- **Modelo TFLite**: [Abrir desde Google Drive]: https://colab.research.google.com/drive/1va8jqYFM36szJQn4p3SX9V6i0GhtEyXj?usp=sharing
 
