@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Inventario Automático del Salón de Cómputo</title>
+  <link rel="icon" href="data:,">
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome para iconos -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Estilos -->
+  <link rel="stylesheet" href="./styles.css" />
+
+  <!-- TensorFlow.js Core -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.11.0/dist/tf.min.js"></script>
+  
+  <!-- TFLite Support -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-tflite@0.0.1-alpha.9/dist/tf-tflite.min.js"></script>
+  
+  <!-- Chart.js para gráficos -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+</head>
+<body>
+  <div class="container">
+    <!-- HEADER MEJORADO -->
+    <header class="header">
+      <div class="header-content">
+        <div class="logo">
+          <i class="fas fa-desktop"></i>
+          <div>
+            <h1>Inventario Inteligente</h1>
+            <p class="subtitle">Sistema de Detección con IA</p>
+          </div>
+        </div>
+        
+        <div class="header-stats">
+          <div class="stat-card">
+            <i class="fas fa-brain"></i>
+            <div>
+              <span class="stat-label">Modelo</span>
+              <span class="stat-value" id="modelStatus">Cargando...</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <i class="fas fa-layer-group"></i>
+            <div>
+              <span class="stat-label">Objetos</span>
+              <span class="stat-value" id="totalObjects">0</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <i class="fas fa-gauge-high"></i>
+            <div>
+              <span class="stat-label">Confianza</span>
+              <span class="stat-value" id="avgConfidence">0%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <!-- SECCIÓN DE CARGA MEJORADA -->
+      <section class="upload-section">
+        <div class="upload-card">
+          <div class="upload-icon">
+            <i class="fas fa-cloud-upload-alt"></i>
+          </div>
+          <h3>Cargar Imagen del Salón</h3>
+          <p>Arrastra una imagen o haz clic para seleccionar</p>
+          
+          <div class="file-input-wrapper">
+            <input 
+              id="fileInput" 
+              type="file" 
+              accept="image/jpeg,image/jpg,image/png" 
+              disabled
+            />
+            <label for="fileInput" class="file-label">
+              <i class="fas fa-folder-open"></i>
+              Seleccionar Archivo
+            </label>
+          </div>
+          
+          <button id="btnRun" class="btn-primary" disabled>
+            <i class="fas fa-wand-magic-sparkles"></i>
+            Detectar Objetos
+          </button>
+          
+          <div id="status" class="status-message">
+            <i class="fas fa-circle-notch fa-spin"></i>
+            Inicializando sistema...
+          </div>
+        </div>
+      </section>
+
+      <!-- VISUALIZACIÓN DE IMÁGENES MEJORADA -->
+      <div class="results-container" id="resultsContainer">
+        <div class="images-grid">
+          <div class="image-card">
+            <div class="card-header">
+              <i class="fas fa-image"></i>
+              <h3>Imagen Original</h3>
+            </div>
+            <div class="image-wrapper">
+              <img id="img" alt="Imagen del salón" />
+              <div class="image-info">
+                <span id="imageSize">0 x 0 px</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="image-card">
+            <div class="card-header">
+              <i class="fas fa-bullseye"></i>
+              <h3>Detecciones</h3>
+              <span class="detection-badge" id="detectionCount">0 objetos</span>
+            </div>
+            <div class="image-wrapper">
+              <canvas id="canvas"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- ESTADÍSTICAS Y GRÁFICOS -->
+        <div class="analytics-section">
+          <div class="analytics-card">
+            <div class="card-header">
+              <i class="fas fa-chart-pie"></i>
+              <h3>Distribución de Objetos</h3>
+            </div>
+            <canvas id="pieChart"></canvas>
+          </div>
+          
+          <div class="analytics-card">
+            <div class="card-header">
+              <i class="fas fa-chart-bar"></i>
+              <h3>Nivel de Confianza</h3>
+            </div>
+            <canvas id="barChart"></canvas>
+          </div>
+        </div>
+
+        <!-- TABLA DE INVENTARIO MEJORADA -->
+        <section class="inventory-section">
+          <div class="card-header">
+            <i class="fas fa-clipboard-list"></i>
+            <h3>Inventario Detallado</h3>
+            <button class="btn-export" onclick="exportToCSV()">
+              <i class="fas fa-download"></i>
+              Exportar CSV
+            </button>
+          </div>
+          
+          <div class="table-wrapper">
+            <table id="countsTable">
+              <thead>
+                <tr>
+                  <th><i class="fas fa-hashtag"></i> Código</th>
+                  <th><i class="fas fa-cube"></i> Objeto</th>
+                  <th><i class="fas fa-calculator"></i> Cantidad</th>
+                  <th><i class="fas fa-percentage"></i> Confianza Promedio</th>
+                  <th><i class="fas fa-chart-line"></i> Estado</th>
+                </tr>
+              </thead>
+              <tbody id="countsBody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- LISTA DE DETECCIONES INDIVIDUALES -->
+        <section class="detections-list">
+          <div class="card-header">
+            <i class="fas fa-list-check"></i>
+            <h3>Detecciones Individuales</h3>
+          </div>
+          <div id="detectionsList" class="detections-grid"></div>
+        </section>
+      </div>
+    </main>
+
+    <!-- FOOTER MEJORADO -->
+    <footer class="footer">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h4><i class="fas fa-graduation-cap"></i> Información Académica</h4>
+          <p>Maestría en Ciencias de la Computación y las Comunicaciones</p>
+          <p>Módulo: BIG DATA - Redes Convolucionales</p>
+          <p>Profesor: Gerardo Muñoz</p>
+        </div>
+        
+        <div class="footer-section">
+          <h4><i class="fas fa-microchip"></i> Tecnologías</h4>
+          <div class="tech-badges">
+            <span class="badge">YOLOv8</span>
+            <span class="badge">TensorFlow Lite</span>
+            <span class="badge">TensorFlow.js</span>
+            <span class="badge">Chart.js</span>
+          </div>
+        </div>
+        
+        <div class="footer-section">
+          <h4><i class="fas fa-tags"></i> Clases Detectables</h4>
+          <div class="classes-grid">
+            <span class="class-badge"><i class="fas fa-server"></i> CPU (0)</span>
+            <span class="class-badge"><i class="fas fa-table"></i> Mesa (1)</span>
+            <span class="class-badge"><i class="fas fa-computer-mouse"></i> Mouse (2)</span>
+            <span class="class-badge"><i class="fas fa-desktop"></i> Pantalla (3)</span>
+            <span class="class-badge"><i class="fas fa-chair"></i> Silla (4)</span>
+            <span class="class-badge"><i class="fas fa-keyboard"></i> Teclado (5)</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>© 2024 Sistema de Inventario Inteligente • Desarrollado con ❤️ para la detección de objetos</p>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Script principal -->
+  <script src="./app.js"></script>
+</body>
+</html>
