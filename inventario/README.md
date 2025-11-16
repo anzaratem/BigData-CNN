@@ -29,7 +29,7 @@ Este proyecto implementa un sistema de visión por computadora que detecta y cue
 ### Modelo Base
 - **Arquitectura**: YOLOv8n (nano)
 - **Framework**: Ultralytics YOLOv8
-- **Dataset**: 50 imágenes del salón anotadas manualmente en Roboflow
+- **Dataset**: 290 imágenes del salón anotadas manualmente en Roboflow
 - **Augmentación**: Flip horizontal, rotación 90°, brightness ±15%, blur
 
 ### Entrenamiento
@@ -66,12 +66,12 @@ model.export(
 
 ```
 inventario/
-├── index.html          # Aplicación web principal
+├── app.js
+├── index.html          # Aplicación web principal       
 ├── modelo.tflite       # Modelo de detección optimizado
+├── style.css
 ├── README.md           # Esta documentación
-└── ejemplos/           # Imágenes de ejemplo (opcional)
-    ├── salon1.jpg
-    └── salon2.jpg
+
 ```
 
 ## 🚀 Uso de la Aplicación
@@ -105,7 +105,7 @@ inventario/
 ### 1. Preparación de Datos
 ```python
 # Dataset anotado en Roboflow
-- 50 imágenes del salón completo
+- 290 imágenes del salón completo
 - Múltiples objetos por imagen
 - Anotaciones manuales precisas
 - Split: 70% train, 20% val, 10% test
@@ -187,7 +187,8 @@ best_model.export(format='tflite', imgsz=640)
 
 **Proyecto**: Inventario Automático del Salón de Cómputo  
 **Materia**: BIG DATA - Módulo de Redes Convolucionales  
-**Profesor**: Gerardo Muñoz  
+**Profesor**: Gerardo Muñoz
+**Estudiante**: Nicolás Zárate Martinez
 **Programa**: Maestría en Ciencias de la Computación y las Comunicaciones  
 
 ## 📄 Licencia
@@ -196,9 +197,8 @@ Este proyecto es parte de un trabajo académico.
 
 ## 🔗 Enlaces
 
-- **Modelo TFLite**: [Descargar desde Google Drive]([ENLACE_AQUI](https://colab.research.google.com/drive/1va8jqYFM36szJQn4p3SX9V6i0GhtEyXj?usp=sharing))
-- **Dataset**: Roboflow (privado)
-- **Código fuente**: GitHub
+- **Modelo TFLite**: [Descargar desde Google Drive]([(https://colab.research.google.com/drive/1va8jqYFM36szJQn4p3SX9V6i0GhtEyXj?usp=sharing)])
+
 
 ---
 
