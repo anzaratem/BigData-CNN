@@ -197,9 +197,5 @@ Este proyecto es parte de un trabajo académico.
 
 ## 🔗 Enlaces
 
-- **Modelo TFLite**: [Descargar desde Google Drive]([(https://colab.research.google.com/drive/1va8jqYFM36szJQn4p3SX9V6i0GhtEyXj?usp=sharing)])
+- **Modelo TFLite**: [Descargar desde Google Drive]((https://colab.research.google.com/drive/1va8jqYFM36szJQn4p3SX9V6i0GhtEyXj?usp=sharing))
 
-
----
-
-**Nota**: Si el modelo no está incluido en el repositorio por su tamaño, descárgalo del enlace de Google Drive y colócalo en la carpeta `inventario/` con el nombre `modelo.tflite`.
