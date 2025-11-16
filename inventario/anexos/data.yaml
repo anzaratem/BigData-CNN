@@ -1,0 +1,17 @@
+names:
+- cpu
+- mesa
+- mouse
+- pantalla
+- silla
+- teclado
+nc: 6
+roboflow:
+  license: CC BY 4.0
+  project: object_detected_yolo-7i67j
+  url: https://universe.roboflow.com/customobjectdetectoryolo11-rzohu/object_detected_yolo-7i67j/dataset/2
+  version: 2
+  workspace: customobjectdetectoryolo11-rzohu
+test: ../test/images
+train: ../train/images
+val: ../valid/images

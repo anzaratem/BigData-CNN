@@ -1,0 +1,24 @@
+{
+  "clases": [
+    "cpu",
+    "mesa",
+    "mouse",
+    "pantalla",
+    "silla",
+    "teclado"
+  ],
+  "num_clases": 6,
+  "imagen_size": 640,
+  "modelo": "YOLOv8n",
+  "dataset": "Roboflow - Anotado manualmente",
+  "imagenes_train": 203,
+  "imagenes_val": 58,
+  "total_objetos": 411,
+  "mAP50": 0.955599595393713,
+  "mAP50-95": 0.7106415527894101,
+  "precision": 0.9611918860596899,
+  "recall": 0.8524510324703054,
+  "epochs": 100,
+  "batch_size": 16,
+  "fecha": "/content"
+}
